@@ -1205,6 +1205,7 @@ body.dark-theme .theme-toggle .theme-icon.moon-icon {
     }
     .skills {
         gap: 1.5rem !important;
+        justify-content: space-around !important;
     }
     .skills img {
         height: 40px;
