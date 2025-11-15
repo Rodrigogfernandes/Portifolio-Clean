@@ -1,0 +1,626 @@
+/* Importar estilos comuns (inclui variáveis globais de cores) */
+@import url('./common.css');
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  user-select: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+/* Estilos duplicados removidos - já definidos abaixo */
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--modal-bg);
+  color: var(--modal-text);
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  min-width: 400px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.modal h3 {
+  margin: 0 0 20px 0;
+  color: var(--modal-text);
+  font-size: 1.5em;
+  text-align: center;
+}
+
+.modal input, .modal select {
+  width: 93%;
+  padding: 10px;
+ margin-bottom: 10px;
+  border: 1px solid var(--input-border);
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+.modal input:focus, .modal select:focus {
+  outline: none;
+  border-color: var(--button-primary);
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
+}
+
+.sidebar {
+  width: 250px;
+  background-color: var(--bg-sidebar);
+  color: var(--text-sidebar);
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.content {
+  flex-grow: 1;
+  padding: 30px;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: var(--bg-secondary);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: background-color 0.3s ease;
+}
+
+th {
+  background-color: var(--table-header);
+  color: var(--text-sidebar);
+  font-weight: 600;
+  padding: 15px 12px;
+  text-align: left;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+td {
+  padding: 12px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-primary);
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+tr:hover {
+  background-color: var(--table-row-hover);
+}
+
+tfoot {
+  background-color: var(--table-row-hover);
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+tfoot td {
+  border-top: 2px solid var(--table-header);
+  padding: 15px 12px;
+  color: var(--text-primary);
+  background-color: var(--table-row-hover);
+  transition: border-color 0.3s ease, color 0.3s ease, background-color 0.3s ease;
+}
+
+tfoot td strong {
+  color: var(--text-primary);
+  transition: color 0.3s ease;
+}
+
+.calendario-container {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background-color: var(--bg-secondary);
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.calendario-container label {
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+.calendario-container input {
+  padding: 8px 12px;
+  border: 1px solid var(--input-border);
+  border-radius: 4px;
+  font-size: 14px;
+  min-width: 150px;
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+.calendario-container input:focus {
+  outline: none;
+  border-color: var(--button-primary);
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
+}
+
+
+/* Update modal message styles */
+#modal-mensagem {
+  text-align: center;
+  min-width: 350px;
+  padding: 25px;
+}
+
+#mensagem-texto {
+  margin: 25px 0;
+  font-size: 16px;
+  color: var(--modal-text);
+  line-height: 1.5;
+  transition: color 0.3s ease;
+}
+
+/* Style form groups in modals */
+.modal form > div {
+  margin-bottom: 15px;
+}
+
+.modal label {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--modal-text);
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+/* Improve button layout in modals */
+.modal .button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.modal .button-group button {
+  flex: 1;
+}
+
+/* Add smooth transitions */
+button, input, select {
+  transition: all 0.3s ease;
+}
+
+.modal.active {
+  display: block;
+}
+
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.overlay.active {
+  display: block;
+}
+
+/* Estilos de tabela já definidos acima, removendo duplicação */
+
+/* Botões gerais - usar variáveis de tema (substitui a definição anterior) */
+button:not(.home-button):not(#btn-alterar-senha):not(.admin-button):not(.modal button) {
+  margin: 5px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  background-color: var(--button-primary);
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+button:not(.home-button):not(#btn-alterar-senha):not(.admin-button):not(.modal button):hover:not(:disabled) {
+  background-color: var(--button-hover);
+  opacity: 1;
+}
+
+button:not(.home-button):not(#btn-alterar-senha):not(.admin-button):not(.modal button):disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: var(--button-primary);
+}
+
+#funcionarios-list li {
+  list-style: none;
+  padding: 10px 10px;
+  margin-bottom: 5px;
+  margin-left: -40px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 13px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-sidebar);
+  transition: all 0.3s ease;
+}
+
+#funcionarios-list li:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: var(--text-sidebar);
+}
+
+#funcionarios-list li.selecionado {
+  background-color: #28a745 !important;
+  color: white !important;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+#funcionarios-list li.selecionado:hover {
+  background-color: #218838 !important;
+}
+
+#funcionarios-list li.admin-selecionado {
+  background-color: #dc3545 !important;
+  color: white !important;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+#funcionarios-list li.admin-selecionado:hover {
+  background-color: #c82333 !important;
+}
+
+#btn-alterar-senha {
+  margin-right: 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#btn-alterar-senha:hover {
+  background-color: #218838;
+}
+
+/* Estilizar botões gerais - removido para evitar conflito */
+
+/* Estilizar labels */
+label {
+  color: var(--text-primary);
+  transition: color 0.3s ease;
+}
+
+/* Estilizar inputs */
+input[type="month"],
+input[type="date"],
+input[type="time"],
+input[type="text"],
+input[type="number"],
+select {
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--input-border);
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+input[type="month"]:focus,
+input[type="date"]:focus,
+input[type="time"]:focus,
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+  outline: none;
+  border-color: var(--button-primary);
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
+}
+
+/* Estilizar h2 */
+h2 {
+  color: var(--text-primary);
+  transition: color 0.3s ease;
+}
+
+.sidebar h2 {
+  color: var(--text-sidebar);
+}
+
+/* Estilizar parágrafos */
+p {
+  color: var(--text-primary);
+  transition: color 0.3s ease;
+}
+
+.modal p {
+  color: var(--modal-text);
+  transition: color 0.3s ease;
+}
+
+.admin-button {
+  position: fixed;
+  
+  bottom: 20px;
+  left: 20px;
+  background-color: #dc3545;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  z-index: 100;
+}
+
+.admin-button:hover {
+  background-color: #c82333;
+}
+
+.admin-mode {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background-color: #dc3545;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.modal button {
+  width: 100%;
+  margin: 5px 0;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: var(--button-primary);
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+/* Add styles for delete confirmation modal */
+#modal-confirmar-exclusao-funcionario {
+  text-align: center;
+  min-width: 300px;
+}
+
+#modal-confirmar-exclusao-funcionario h3 {
+  color: #dc3545;
+  margin-bottom: 20px;
+  transition: color 0.3s ease;
+}
+
+#modal-confirmar-exclusao-funcionario p {
+  color: var(--modal-text);
+  margin-bottom: 10px;
+  transition: color 0.3s ease;
+}
+
+#modal-confirmar-exclusao-funcionario .btn-confirmar {
+  background-color: #dc3545;
+}
+
+#modal-confirmar-exclusao-funcionario .btn-confirmar:hover {
+  background-color: #c82333;
+}
+
+#modal-confirmar-exclusao-funcionario .btn-cancelar {
+  background-color: #6c757d;
+}
+
+#modal-confirmar-exclusao-funcionario .btn-cancelar:hover {
+  background-color: #5a6268;
+}
+
+.modal button:hover {
+  background-color: var(--button-hover);
+}
+
+#selecao-funcionario {
+  margin-bottom: 15px;
+}
+
+#funcionario-exportar {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border-radius: 4px;
+  border: 1px solid var(--input-border);
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+#modal-add-funcionario {
+  width: 450px;
+  padding: 25px;
+}
+
+#modal-add-funcionario form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#modal-add-funcionario input,
+#modal-add-funcionario select {
+  width: 100%;
+  padding: 8px;
+  margin: 0;
+  height: 35px;
+  box-sizing: border-box;
+}
+
+#modal-add-funcionario label {
+  color: var(--modal-text);
+  font-weight: 500;
+  margin-bottom: 4px;
+  transition: color 0.3s ease;
+}
+
+#modal-add-funcionario #horarios-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5px;
+  align-items: center;
+}
+
+#modal-add-funcionario #horarios-container label {
+  grid-column: 1 / -1;
+  margin: 5px 0;
+}
+
+#modal-add-funcionario #horarios-container input {
+  width: 100%;
+}
+
+#modal-add-funcionario button {
+  padding: 10px;
+  margin-top: 5px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+#modal-add-funcionario button[type="submit"] {
+  background-color: #2ecc71;
+}
+
+#modal-add-funcionario button[type="submit"]:hover {
+  background-color: #27ae60;
+}
+
+#modal-add-funcionario button[type="button"] {
+  background-color: #95a5a6;
+}
+
+#modal-add-funcionario button[type="button"]:hover {
+  background-color: #7f8c8d;
+}
+
+#modal-mensagem {
+  text-align: center;
+  min-width: 300px;
+}
+
+#mensagem-texto {
+  margin: 20px 0;
+  font-size: 16px;
+  color: var(--modal-text);
+  transition: color 0.3s ease;
+}
+
+#mensagem-titulo {
+  color: var(--modal-text);
+  transition: color 0.3s ease;
+}
+
+#modal-mensagem button {
+  width: 100px;
+  margin: 10px auto;
+}
+
+.admin-controls {
+  position: fixed;
+  bottom: 60px;
+  left: 20px;
+  z-index: 100;
+}
+
+.allow-delete-control {
+  display: none;
+  margin-bottom: 20px;
+  color: var(--text-sidebar);
+  font-size: 10px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.allow-delete-control input {
+  margin-right: 5px;
+  accent-color: var(--button-primary);
+}
+
+.allow-delete-control.visible {
+  display: block;
+}
+
+.allow-delete-control input {
+  margin-right: 5px;
+}
+#modal-admin {
+  width: 350px;
+  padding: 25px;
+  text-align: center;
+}
+
+#modal-admin h3 {
+  color: var(--modal-text);
+  margin-bottom: 20px;
+  font-size: 1.4em;
+  transition: color 0.3s ease;
+}
+
+#modal-admin form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#modal-admin input {
+  padding: 12px;
+  border: 1px solid var(--input-border);
+  border-radius: 4px;
+  font-size: 14px;
+  text-align: center;
+  max-width: 92%;
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+#modal-admin input:focus {
+  outline: none;
+  border-color: var(--button-primary);
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
+}
+
+#modal-admin button[type="submit"] {
+  background-color: #e74c3c;
+ 
+}
+
+#modal-admin button[type="submit"]:hover {
+  background-color: #c0392b;
+}
+
+#modal-admin button[type="button"] {
+  background-color: #95a5a6;
+}
+
+#modal-admin button[type="button"]:hover {
+  background-color: #7f8c8d;
+}

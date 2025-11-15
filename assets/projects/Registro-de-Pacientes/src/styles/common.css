@@ -1,0 +1,252 @@
+/* ============================================
+   VARIÁVEIS GLOBAIS DE CORES
+   ============================================ */
+
+:root {
+    /* ===== Cores Principais ===== */
+    --primary-color: #2196F3;
+    --success-color: #4CAF50;
+    --danger-color: #F44336;
+    --warning-color: #FFC107;
+    --cancel-color: #757575;
+
+    /* ===== Cores de Hover ===== */
+    --primary-hover: #1976D2;
+    --success-hover: #43A047;
+    --danger-hover: #D32F2F;
+    --warning-hover: #FFB300;
+    --cancel-hover: #616161;
+
+    /* ===== Cores de Borda ===== */
+    --primary-border: #BBDEFB;
+    --success-border: #C8E6C9;
+    --danger-border: #FFCDD2;
+    --warning-border: #FFECB3;
+
+    /* ===== Tema Claro (Padrão) ===== */
+    --bg-primary: #f0f2f5;
+    --bg-secondary: #ffffff;
+    --bg-sidebar: #2c3e50;
+    --text-primary: #1a1a1a;
+    --text-secondary: #666666;
+    --text-sidebar: #ffffff;
+    --border-color: #dee2e6;
+    
+    /* ===== Botões ===== */
+    --button-primary: #4a90e2;
+    --button-hover: #357abd;
+    --button-bg: #f0f0f0;
+    --button-color: #000;
+    
+    /* ===== Inputs ===== */
+    --input-bg: #ffffff;
+    --input-border: #e0e0e0;
+    
+    /* ===== Tabelas ===== */
+    --table-header: #f0f2f3;
+    --table-row-hover: #f8f9fa;
+    --selected-row: #e3f2fd;
+    
+    /* ===== Modais ===== */
+    --modal-bg: #ffffff;
+    --modal-text: #333333;
+    --modal-title: #2c3e50;
+    --modal-background: rgba(0, 0, 0, 0.4);
+    --modal-content-background: #ffffff;
+    --modal-border: #dee2e6;
+    --modal-button-hover: #f5f5f5;
+    
+    /* ===== Outros ===== */
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --background-color: #f5f5f5;
+    --card-background: #ffffff;
+    --text-color: #333333;
+}
+
+/* ===== TEMA ESCURO ===== */
+body.dark-theme,
+html.dark-theme body,
+html.dark-theme {
+    --bg-primary: #1e1e2e;
+    --bg-secondary: #2d2d3f;
+    --bg-sidebar: #1a1a2e;
+    --text-primary: #e2e2e2;
+    --text-secondary: #b0b0b0;
+    --text-sidebar: #e2e2e2;
+    --border-color: #4a4a6a;
+    
+    /* Botões */
+    --button-primary: #4a4a6a;
+    --button-hover: #5a5a8a;
+    --button-bg: #333;
+    --button-color: #fff;
+    
+    /* Inputs */
+    --input-bg: #363650;
+    --input-border: #4a4a6a;
+    
+    /* Tabelas */
+    --table-header: #363650;
+    --table-row-hover: #3a3a52;
+    --selected-row: #4a4a6a;
+    
+    /* Modais */
+    --modal-bg: #2d2d3f;
+    --modal-text: #e2e2e2;
+    --modal-title: #e2e2e2;
+    --modal-background: rgba(0, 0, 0, 0.6);
+    --modal-content-background: #2d2d3f;
+    --modal-border: #4a4a6a;
+    --modal-button-hover: #3d3d4f;
+    
+    /* Outros */
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --background-color: #1e1e2e;
+    --card-background: #2d2d3f;
+    --text-color: #e2e2e2;
+    
+    /* Cores Principais (ajustadas para tema escuro) */
+    --primary-color: #42A5F5;
+    --success-color: #66BB6A;
+    --danger-color: #EF5350;
+    --warning-color: #FFCA28;
+    --cancel-color: #9E9E9E;
+    
+    --primary-hover: #2196F3;
+    --success-hover: #4CAF50;
+    --danger-hover: #E53935;
+    --warning-hover: #FFB300;
+    --cancel-hover: #757575;
+    
+    --primary-border: #4a4a6a;
+}
+
+/* ===== TEMA AZUL ===== */
+body.theme-azul,
+html.theme-azul body,
+html.theme-azul {
+    --bg-primary: #e8f5fe;
+    --bg-secondary: #ffffff;
+    --bg-sidebar: #1976d2;
+    --text-primary: #0d47a1;
+    --text-secondary: #1976d2;
+    --text-sidebar: #ffffff;
+    --border-color: #90caf9;
+    
+    /* Botões */
+    --button-primary: #1976d2;
+    --button-hover: #1565c0;
+    --button-bg: #007bff;
+    --button-color: #fff;
+    
+    /* Inputs */
+    --input-bg: #ffffff;
+    --input-border: #90caf9;
+    
+    /* Tabelas */
+    --table-header: #bbdefb;
+    --table-row-hover: #e3f2fd;
+    --selected-row: #90caf9;
+    
+    /* Modais */
+    --modal-bg: #ffffff;
+    --modal-text: #0d47a1;
+    --modal-title: #0d47a1;
+    --modal-background: rgba(25, 118, 210, 0.4);
+    --modal-content-background: #ffffff;
+    --modal-border: #bbdefb;
+    --modal-button-hover: #e3f2fd;
+    
+    /* Outros */
+    --shadow-color: rgba(25, 118, 210, 0.1);
+    --background-color: #e3f2fd;
+    --card-background: #ffffff;
+    --text-color: #0d47a1;
+}
+
+/* ===== TEMA CLARO (LIGHT) ===== */
+body.light-theme,
+html.light-theme body,
+html.light-theme {
+    /* Usa os valores padrão do :root, mas pode ser sobrescrito se necessário */
+    --button-bg: #f0f0f0;
+    --button-hover: #e0e0e0;
+    --button-color: #000;
+}
+
+/* ============================================
+   ESTILOS COMUNS
+   ============================================ */
+
+/* Container do cabeçalho */
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 15px 0;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color, #dee2e6);
+}
+
+.header-container h1 {
+    margin: 0 !important;
+    color: var(--text-primary, #2c3e50) !important;
+    font-size: 2.2em !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    font-weight: 600 !important;
+    text-align: center !important;
+}
+
+/* Botão Home Padronizado */
+.home-button {
+    position: absolute;
+    left: 10px;
+    padding: 10px 20px;
+    background-color: var(--button-primary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px var(--shadow-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 80px;
+}
+
+.home-button:hover {
+    background-color: var(--button-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+.home-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+/* Estilo especial para página de ponto (dentro da sidebar) */
+.sidebar .home-button {
+    position: relative !important;
+    left: auto !important;
+    width: 100%;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px var(--shadow-color) !important;
+    background-color: var(--button-primary) !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    padding: 10px 20px !important;
+    border-radius: 6px !important;
+}
+
+.sidebar .home-button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 8px var(--shadow-color) !important;
+    background-color: var(--button-hover) !important;
+}
+

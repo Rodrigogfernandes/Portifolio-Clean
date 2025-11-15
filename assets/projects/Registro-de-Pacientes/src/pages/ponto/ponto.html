@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Ponto</title>
+  <link rel="stylesheet" href="../../styles/ponto.css">
+  <script>
+    // Aplicar tema antes da página ser renderizada
+    (function() {
+      try {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+          // Remover classes de tema do html
+          document.documentElement.classList.remove('dark-theme', 'theme-azul');
+          
+          // Aplicar tema no html (o body será atualizado pelo script principal)
+          if (savedTheme === 'dark') {
+            document.documentElement.classList.add('dark-theme');
+          } else if (savedTheme === 'blue' || savedTheme === 'azul') {
+            document.documentElement.classList.add('theme-azul');
+          }
+        }
+      } catch (e) {
+        console.error('Erro ao aplicar tema:', e);
+      }
+    })();
+  </script>
+</head>
+
+<body>
+    <div class="container">
+    <div class="sidebar">
+      <button onclick="window.location.href='../index.html'" class="home-button" title="Voltar para a página inicial">Home</button>
+      <h2>Funcionários</h2>
+      <button id="btn-add-funcionario" onclick="openModal('add-funcionario')" style="display: none;">Adicionar Funcionário</button>
+      <ul id="funcionarios-list"></ul>
+    </div>
+    <div class="content">
+      <h2 id="titulo-registro-ponto">Registros de Ponto</h2>
+      <div class="calendario-container">
+        <label for="mes-selecionado">Mês/Ano:</label>
+        <input type="month" id="mes-selecionado" onchange="filtrarPorMes()" required>
+      </div>
+      <button id="btn-bater-ponto" style="display: none;" onclick="openModal('bater-ponto')">Bater Ponto</button>
+      <button id="btn-exportar-pdf" onclick="openModalExportarPDF()">Exportar PDF</button>
+      <table id="registros-table">
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Turno Manhã</th>
+            <th>Turno Tarde</th>
+            <th>Horas Extras</th>
+            <th>Total Horas</th>
+            <th>Valor Diário</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot>
+          <tr>
+            <td colspan="5"><strong>Total a Receber</strong></td>
+            <td id="total-a-receber">R$ 0.00</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <div class="admin-controls">
+        <label class="allow-delete-control">
+            <input type="checkbox" id="allow-delete-registro" checked>
+            Permitir exclusão de ponto pelo funcionario
+        </label>
+      </div>
+        <button id="btn-admin" class="admin-button">Administrador</button>
+  </div>
+
+  <!-- Modal para Adicionar Funcionário -->
+  
+  <div id="modal-add-funcionario" class="modal">
+    <h3>Adicionar Funcionário</h3>
+    <form id="form-add-funcionario">
+      <input type="text" name="nome" placeholder="Nome" required>
+      <input type="text" name="cpf" placeholder="CPF" required>
+      <input type="number" name="valor_hora" placeholder="Valor Hora" step="0.01" required>
+      <input type="number" name="multiplicador_extra" placeholder="Multiplicador Extra" step="0.01" required>
+      
+      <label>Carga Horária:</label>
+      <select name="tipo_carga_horaria" onchange="toggleHorarios(this)">
+          <option value="meio">Meio Período (6h)</option>
+          <option value="integral">Período Integral (12h)</option>
+          <option value="especial">Horário Especial</option>
+      </select>
+
+      <div id="horarios-container">
+          <label>Manhã:</label>
+          <input type="time" name="manha_entrada" value="07:00">
+          <input type="time" name="manha_saida" value="13:00">
+
+          <label>Tarde:</label>
+          <input type="time" name="tarde_entrada" value="13:00">
+          <input type="time" name="tarde_saida" value="19:00">
+      </div>
+
+      <input type="password" name="senha" placeholder="Crie uma Senha" required>
+      <button type="submit">Adicionar Funcionário</button>
+      <button type="button" onclick="closeModal()">Cancelar</button>
+    </form>
+  </div>
+
+  <!-- Adicionar novo modal para verificação de senha -->
+  <div id="modal-verificar-senha" class="modal">
+    <h3>Verificar Senha</h3>
+    <form id="form-verificar-senha">
+      <input type="password" name="senha" placeholder="Digite a senha" required><br>
+      <button type="submit">Confirmar</button>
+      <button type="button" onclick="closeModal()">Cancelar</button>
+    </form>
+  </div>
+
+  <!-- Modal para alterar senha -->
+  <div id="modal-alterar-senha" class="modal">
+    <h3>Alterar Senha</h3>
+    <form id="form-alterar-senha">
+      <input type="password" name="senha_atual" placeholder="Senha Atual" required>
+      <input type="password" name="nova_senha" placeholder="Nova Senha" required>
+      <input type="password" name="confirmar_senha" placeholder="Confirmar Nova Senha" required>
+      <button type="submit">Alterar Senha</button>
+      <button type="button" onclick="closeModal()">Cancelar</button>
+    </form>
+  </div>
+
+  <!-- Modal para Editar/Excluir Funcionário -->
+
+  <div id="modal-editar-excluir-funcionario" class="modal">
+    <h2>Editar/Excluir Funcionário</h2>
+    <p>Nome: <span class="funcionario-nome"></span></p>
+    <p>CPF: <span class="funcionario-cpf"></span></p>
+    <p>Valor Hora: <span class="funcionario-valor-hora"></span></p>
+    <p>Multiplicador Extra: <span class="funcionario-multiplicador-extra"></span></p>
+    <button id="btn-editar-funcionario">Editar</button>
+    <button id="btn-excluir-funcionario">Excluir</button>
+    <button onclick="closeModal()">Fechar</button>
+  </div>
+
+  <!-- Modal para Editar Funcionário -->
+
+  <div id="modal-editar-funcionario" class="modal">
+    <h2>Editar Funcionário</h2>
+    <form id="form-editar-funcionario">
+      <label for="nome">Nome:</label>
+      <input type="text" id="nome" name="nome" required>
+
+      <label for="cpf">CPF:</label>
+      <input type="text" id="cpf" name="cpf" required>
+
+      <label for="valor_hora">Valor Hora:</label>
+      <input type="number" id="valor_hora" name="valor_hora" step="0.01" required>
+
+      <label for="multiplicador_extra">Multiplicador Extra:</label>
+      <input type="number" id="multiplicador_extra" name="multiplicador_extra" step="0.01" required>
+
+      <label for="carga_horaria">Carga Horária Diária:</label>
+      <input type="number" id="carga_horaria" name="carga_horaria" step="0.5" required>
+
+      <button type="submit">Salvar</button>
+      <button type="button" onclick="closeModal()">Cancelar</button>
+    </form>
+  </div>
+
+
+  <!-- Modal para Bater Ponto -->
+
+  <div id="modal-bater-ponto" class="modal">
+    <h3>Bater Ponto</h3>
+    <form id="form-bater-ponto">
+        <label>Data: <input type="date" name="data" required></label><br>
+        <label>Horas Extras: <input type="number" step="0.01" name="horas_extras" value="0"></label><br>
+        <label>Turno:
+            <select name="turno" required>
+                <option value="manha">Manhã</option>
+                <option value="tarde">Tarde</option>
+                <option value="ambos">Manhã e Tarde</option>
+            </select>
+        </label><br>
+        <button type="submit">Salvar</button>
+        <button type="button" onclick="closeModal()">Cancelar</button>
+    </form>
+  </div>
+
+  <!-- Modal para Exportar PDF -->
+  <div id="modal-exportar-pdf" class="modal">
+    <h3>Exportar Folha de Ponto</h3>
+    <div id="selecao-funcionario" style="display: none;">
+        <label for="funcionario-exportar">Funcionário:</label>
+        <select id="funcionario-exportar">
+            <option value="todos">Todos os Funcionários</option>
+        </select><br>
+    </div>
+    <label for="mes-exportar">Mês/Ano:</label>
+    <input type="month" id="mes-exportar" required><br>
+    <button onclick="gerarPDF()">Exportar</button>
+    <button onclick="closeModal()">Cancelar</button>
+  </div>
+
+  <!-- Modal para Editar Registro -->
+  <div id="modal-editar-registro" class="modal">
+    <form id="form-editar-registro">
+      <label for="data">Data:</label>
+      <input type="date" name="data" id="data" required>
+
+      <label for="carga_horaria_dia">Carga Horária do Dia:</label>
+      <input type="number" name="carga_horaria_dia" id="carga_horaria_dia" step="0.5">
+
+      <label>Turno Manhã:</label><br>
+      <input type="time" name="turno_manha_entrada" placeholder="Entrada Manhã">
+      <input type="time" name="turno_manha_saida" placeholder="Saída Manhã"><br>
+
+      <label>Turno Tarde:</label><br>
+      <input type="time" name="turno_tarde_entrada" placeholder="Entrada Tarde">
+      <input type="time" name="turno_tarde_saida" placeholder="Saída Tarde"><br>
+
+      <label for="horas_extras">Horas Extras:</label>
+      <input type="number" name="horas_extras" step="0.5" placeholder="Horas Extras"><br>
+
+      <button type="submit">Salvar Alterações</button>
+      <button type="button" id="btn-excluir-registro">Excluir Registro</button>
+      <button type="button" onclick="closeModal()">Cancelar</button>
+    </form>
+  </div>
+
+  <div id="overlay" class="overlay" onclick="closeModal()"></div>
+
+  
+  <!-- Adicione o modal de admin -->
+  <div id="modal-admin" class="modal">
+    <h3>Acesso Administrativo</h3>
+    <form id="form-admin">
+      <input type="password" name="senha_admin" placeholder="Senha do Administrador" required>
+      <button type="submit">Acessar</button>
+      <button type="button" onclick="closeModal()">Cancelar</button>
+    </form>
+  </div>
+  
+  <!-- Modal de Opções do Administrador -->
+  <div id="modal-opcoes-admin" class="modal">
+    <h3>Opções do Administrador</h3>
+    <button onclick="openModal('alterar-senha-admin')">Alterar Senha</button>
+    <button onclick="logoutAdmin()">Logout</button>
+    <button onclick="closeModal()">Cancelar</button>
+  </div>
+  
+  <!-- Modal de Alterar Senha do Administrador -->
+  <div id="modal-alterar-senha-admin" class="modal">
+    <h3>Alterar Senha do Administrador</h3>
+    <form id="form-alterar-senha-admin">
+      <input type="password" name="senha_atual" placeholder="Senha Atual" required><br>
+      <input type="password" name="nova_senha" placeholder="Nova Senha" required><br>
+      <input type="password" name="confirmar_senha" placeholder="Confirmar Nova Senha" required><br>
+      <button type="submit">Alterar</button>
+      <button type="button" onclick="closeModal()">Cancelar</button>
+    </form>
+  </div>
+  
+  <!-- Modal para Mensagens -->
+  <div id="modal-mensagem" class="modal">
+    <h3 id="mensagem-titulo">Aviso</h3>
+    <p id="mensagem-texto"></p>
+    <button onclick="closeModal()">OK</button>
+  </div>
+  
+  <!-- Modal de Opções do Funcionário (Logout) -->
+  <div id="modal-opcoes-funcionario" class="modal">
+    <h3>Opções do Funcionário</h3>
+    <p>Deseja sair da sua conta?</p>
+    <button onclick="logoutFuncionario()">Logout</button>
+    <button onclick="closeModal()">Cancelar</button>
+  </div>
+  <!-- Add this before the closing body tag -->
+  <div id="modal-confirmar-exclusao-funcionario" class="modal">
+    <h3>Confirmar Exclusão</h3>
+    <p>Tem certeza que deseja excluir este funcionário?</p>
+    <p>Esta ação não pode ser desfeita.</p>
+    <button class="btn-confirmar" onclick="confirmarExclusaoFuncionario()">Sim, Excluir</button>
+    <button class="btn-cancelar" onclick="closeModal()">Cancelar</button>
+  </div>
+  
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script>
+  <script src="../../scripts/ponto/ponto.js"></script>
+</body>
+
+</html>

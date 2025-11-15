@@ -1,0 +1,98 @@
+/* Importar estilos comuns (inclui variáveis globais de cores) */
+@import url('./common.css');
+
+/* Mapear variáveis locais para variáveis globais para compatibilidade */
+body {
+    --primary-color: var(--button-primary);
+    --primary-hover: var(--button-hover);
+    --background-color: var(--bg-primary);
+    --card-background: var(--bg-secondary);
+    --modal-content-background: var(--modal-bg);
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color: var(--text-color);
+    user-select: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--background-color);
+    transition: all 0.3s ease;
+}
+
+.table-container {
+    width: 90%;
+    max-width: 1200px;
+    padding: 40px;
+    background-color: var(--card-background);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px var(--shadow-color);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--text-color);
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.button-group1 {
+    width: 200px;
+    height: 250px;
+    background-color: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.button-group1:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px var(--shadow-color);
+    border-color: var(--primary-color);
+}
+
+.icon-container {
+    width: 160px;
+    height: 160px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.button-label {
+    width: 100%;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+hr {
+    width: 100%;
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 20px 0;
+}
